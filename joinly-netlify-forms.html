@@ -1,0 +1,2225 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0F0F14" />
+    <meta
+      name="description"
+      content="Joinly — poznawaj ludzi przez realne aktywności w okolicy. Zapisz się na early access i dołącz do pierwszej fali testerów."
+    />
+    <title>Joinly — Early Access</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="shortcut icon" href="assets/logo.png" type="image/x-icon" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #0f0f14;
+        --bg2: #171721;
+        --bg3: #1f202d;
+        --card: #222331;
+        --card2: #2a2b3d;
+        --text: #f5f7fb;
+        --muted: #a2a5b8;
+        --dim: #686c80;
+        --line: #303246;
+        --accent: #1d9e75;
+        --accent2: #22c58f;
+        --accent3: #0f6e56;
+        --gold: #f8b84e;
+        --pink: #ec4899;
+        --blue: #3b82f6;
+        --violet: #8b5cf6;
+        --orange: #f97316;
+        --red: #ef4444;
+        --shadow: 0 24px 90px rgba(0, 0, 0, 0.42);
+        --r: 24px;
+        --r2: 36px;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: "DM Sans", system-ui, sans-serif;
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+      a {
+        color: inherit;
+      }
+      button,
+      input,
+      select,
+      textarea {
+        font: inherit;
+      }
+      button {
+        cursor: pointer;
+      }
+      body:before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: -3;
+        background:
+          radial-gradient(
+            circle at 15% 8%,
+            rgba(29, 158, 117, 0.22),
+            transparent 34%
+          ),
+          radial-gradient(
+            circle at 84% 12%,
+            rgba(59, 130, 246, 0.14),
+            transparent 30%
+          ),
+          radial-gradient(
+            circle at 50% 90%,
+            rgba(236, 72, 153, 0.1),
+            transparent 32%
+          ),
+          var(--bg);
+      }
+      body:after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: -2;
+        pointer-events: none;
+        opacity: 0.45;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.08'/%3E%3C/svg%3E");
+      }
+      .container {
+        width: min(1160px, calc(100% - 40px));
+        margin-inline: auto;
+      }
+      .grid-bg {
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+          linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.035) 1px,
+            transparent 1px
+          );
+        background-size: 54px 54px;
+        mask-image: linear-gradient(to bottom, black, transparent 78%);
+      }
+      .nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 74px;
+        z-index: 50;
+        background: rgba(15, 15, 20, 0.74);
+        backdrop-filter: blur(18px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .nav-in {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+      }
+      .brand-logo {
+        width: 122px;
+        height: auto;
+        display: block;
+        filter: drop-shadow(0 0 22px rgba(29, 158, 117, 0.25));
+      }
+      .footer .brand-logo {
+        width: 116px;
+      }
+      .brand-name {
+        font-family: "Syne";
+        font-weight: 800;
+        font-size: 22px;
+        letter-spacing: -0.04em;
+      }
+      .nav-links {
+        display: flex;
+        gap: 24px;
+        align-items: center;
+        list-style: none;
+      }
+      .nav-links a {
+        text-decoration: none;
+        color: var(--muted);
+        font-size: 14px;
+        font-weight: 600;
+        transition: 0.2s;
+      }
+      .nav-links a:hover {
+        color: var(--text);
+      }
+      .nav-cta {
+        background: linear-gradient(135deg, var(--accent), var(--accent2));
+        padding: 10px 18px;
+        border-radius: 999px !important;
+        color: white !important;
+        box-shadow: 0 10px 34px rgba(29, 158, 117, 0.25);
+      }
+      .hamb {
+        display: none;
+        background: transparent;
+        border: 0;
+        color: var(--text);
+        font-size: 26px;
+      }
+      .mobile-menu {
+        display: none;
+        position: fixed;
+        top: 74px;
+        left: 16px;
+        right: 16px;
+        background: rgba(31, 32, 45, 0.96);
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        padding: 12px;
+        z-index: 55;
+        box-shadow: var(--shadow);
+      }
+      .mobile-menu a {
+        display: block;
+        text-decoration: none;
+        color: var(--text);
+        padding: 13px 14px;
+        border-radius: 14px;
+      }
+      .mobile-menu a:hover {
+        background: rgba(255, 255, 255, 0.06);
+      }
+      .hero {
+        position: relative;
+        min-height: 100vh;
+        padding: 124px 0 80px;
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+      }
+      .hero-layout {
+        display: grid;
+        grid-template-columns: 1.03fr 0.97fr;
+        gap: 44px;
+        align-items: center;
+      }
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        padding: 8px 14px;
+        border: 1px solid rgba(29, 158, 117, 0.35);
+        border-radius: 999px;
+        background: rgba(29, 158, 117, 0.12);
+        color: var(--accent2);
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 22px;
+      }
+      .pulse-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--accent2);
+        box-shadow: 0 0 0 0 rgba(34, 197, 143, 0.8);
+        animation: pulse 1.8s infinite;
+      }
+      .hero h1 {
+        font-family: "Syne";
+        font-size: clamp(44px, 7vw, 86px);
+        line-height: 0.98;
+        letter-spacing: -0.07em;
+        margin-bottom: 24px;
+      }
+      .gradient-text {
+        background: linear-gradient(135deg, #fff, var(--accent2), #8bd7ff);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .hero-sub {
+        font-size: 19px;
+        color: var(--muted);
+        max-width: 620px;
+        margin-bottom: 28px;
+      }
+      .hero-sub b {
+        color: var(--text);
+      }
+      .hero-actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        border: 0;
+        text-decoration: none;
+        border-radius: 999px;
+        padding: 15px 22px;
+        font-weight: 800;
+        transition: 0.2s;
+        min-height: 52px;
+      }
+      .btn-primary {
+        background: linear-gradient(135deg, var(--accent), var(--accent2));
+        color: white;
+        box-shadow: 0 20px 50px rgba(29, 158, 117, 0.28);
+      }
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 30px 70px rgba(29, 158, 117, 0.38);
+      }
+      .btn-ghost {
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.035);
+        color: var(--text);
+      }
+      .btn-ghost:hover {
+        border-color: rgba(255, 255, 255, 0.28);
+        transform: translateY(-2px);
+      }
+      .hero-micro {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+        margin-top: 22px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .hero-micro span {
+        display: flex;
+        gap: 7px;
+        align-items: center;
+      }
+      .avatars {
+        display: flex;
+        align-items: center;
+        margin-top: 28px;
+        gap: 12px;
+      }
+      .av-stack {
+        display: flex;
+      }
+      .av {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: 2px solid var(--bg);
+        display: grid;
+        place-items: center;
+        margin-left: -8px;
+        background: var(--card);
+        font-size: 15px;
+      }
+      .av:first-child {
+        margin-left: 0;
+      }
+      .avatars p {
+        font-size: 13px;
+        color: var(--muted);
+      }
+      .avatars b {
+        color: var(--text);
+      }
+      .phone-area {
+        position: relative;
+        min-height: 640px;
+        display: grid;
+        place-items: center;
+      }
+      .orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(1px);
+        opacity: 0.72;
+        animation: float 5.8s ease-in-out infinite;
+      }
+      .orb.one {
+        width: 140px;
+        height: 140px;
+        background: rgba(29, 158, 117, 0.18);
+        left: 4%;
+        top: 8%;
+      }
+      .orb.two {
+        width: 90px;
+        height: 90px;
+        background: rgba(59, 130, 246, 0.16);
+        right: 8%;
+        top: 18%;
+        animation-delay: 1s;
+      }
+      .orb.three {
+        width: 110px;
+        height: 110px;
+        background: rgba(236, 72, 153, 0.13);
+        right: 16%;
+        bottom: 10%;
+        animation-delay: 2s;
+      }
+      .phone {
+        width: 318px;
+        height: 640px;
+        border-radius: 46px;
+        background: #080910;
+        border: 2px solid #37394d;
+        box-shadow:
+          var(--shadow),
+          inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+        overflow: hidden;
+        position: relative;
+        transform: rotate(1.3deg);
+      }
+      .phone:before {
+        content: "";
+        position: absolute;
+        top: 13px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 28px;
+        border-radius: 999px;
+        background: #05060a;
+        border: 1px solid #202233;
+        z-index: 10;
+      }
+      .map {
+        position: absolute;
+        inset: 0;
+        background:
+          repeating-linear-gradient(
+            0deg,
+            transparent 0 36px,
+            rgba(255, 255, 255, 0.04) 36px 37px
+          ),
+          repeating-linear-gradient(
+            90deg,
+            transparent 0 36px,
+            rgba(255, 255, 255, 0.04) 36px 37px
+          ),
+          #12131d;
+      }
+      .map:before {
+        content: "";
+        position: absolute;
+        inset: -20%;
+        background:
+          linear-gradient(
+            64deg,
+            transparent 40%,
+            rgba(255, 255, 255, 0.05) 40% 43%,
+            transparent 43%
+          ),
+          linear-gradient(
+            132deg,
+            transparent 52%,
+            rgba(255, 255, 255, 0.055) 52% 56%,
+            transparent 56%
+          ),
+          linear-gradient(
+            10deg,
+            transparent 32%,
+            rgba(255, 255, 255, 0.045) 32% 35%,
+            transparent 35%
+          );
+      }
+      .pbar {
+        position: absolute;
+        z-index: 4;
+        top: 48px;
+        left: 14px;
+        right: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: rgba(15, 15, 20, 0.82);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 18px;
+        padding: 12px 12px;
+        backdrop-filter: blur(10px);
+      }
+      .pbrand {
+        font-family: "Syne";
+        font-weight: 800;
+        color: var(--accent2);
+      }
+      .pchip {
+        font-size: 11px;
+        color: var(--muted);
+        background: rgba(255, 255, 255, 0.05);
+        padding: 5px 8px;
+        border-radius: 999px;
+      }
+      .filters {
+        position: absolute;
+        z-index: 4;
+        top: 106px;
+        left: 14px;
+        right: 0;
+        display: flex;
+        gap: 7px;
+        overflow: hidden;
+      }
+      .filter {
+        font-size: 11px;
+        white-space: nowrap;
+        padding: 7px 10px;
+        border-radius: 999px;
+        background: var(--card);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        color: var(--muted);
+      }
+      .filter.active {
+        background: var(--accent);
+        color: white;
+      }
+      .pin {
+        position: absolute;
+        z-index: 3;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        border: 2px solid currentColor;
+        background: rgba(255, 255, 255, 0.07);
+        animation: pin 2.4s ease-in-out infinite;
+      }
+      .pin:after {
+        content: "";
+        position: absolute;
+        inset: -8px;
+        border-radius: inherit;
+        border: 1px solid currentColor;
+        opacity: 0.25;
+        animation: ripple 2.4s infinite;
+      }
+      .sheet {
+        position: absolute;
+        z-index: 5;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(180deg, var(--bg3), #13141d);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 26px 26px 0 0;
+        padding: 12px 16px 18px;
+      }
+      .handle {
+        width: 44px;
+        height: 4px;
+        border-radius: 99px;
+        background: var(--line);
+        margin: 0 auto 14px;
+      }
+      .sheet h3 {
+        font-family: "Syne";
+        letter-spacing: -0.02em;
+        font-size: 18px;
+      }
+      .activity {
+        display: flex;
+        gap: 11px;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 11px;
+        border-radius: 17px;
+        margin-top: 12px;
+      }
+      .aicon {
+        width: 42px;
+        height: 42px;
+        border-radius: 14px;
+        display: grid;
+        place-items: center;
+        background: rgba(59, 130, 246, 0.18);
+      }
+      .activity small {
+        display: block;
+        color: var(--muted);
+        font-size: 11px;
+      }
+      .join {
+        margin-left: auto;
+        background: var(--accent);
+        color: white;
+        border: 0;
+        border-radius: 12px;
+        padding: 9px 12px;
+        font-weight: 800;
+        font-size: 12px;
+      }
+      .float-card {
+        position: absolute;
+        z-index: 8;
+        background: rgba(34, 35, 49, 0.92);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 13px 14px;
+        box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+        backdrop-filter: blur(12px);
+        animation: float 5s ease-in-out infinite;
+      }
+      .float-card.left {
+        left: 0;
+        top: 130px;
+      }
+      .float-card.right {
+        right: 0;
+        top: 310px;
+        animation-delay: 1.2s;
+      }
+      .float-card.bottom {
+        left: 18px;
+        bottom: 32px;
+        animation-delay: 2s;
+      }
+      .fc-title {
+        font-weight: 800;
+        font-size: 13px;
+      }
+      .fc-sub {
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .strip {
+        border-block: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.025);
+        overflow: hidden;
+      }
+      .marquee {
+        display: flex;
+        gap: 42px;
+        white-space: nowrap;
+        animation: marquee 26s linear infinite;
+        padding: 16px 0;
+        color: var(--muted);
+        font-weight: 700;
+      }
+      .marquee span {
+        display: inline-flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .marquee b {
+        color: var(--text);
+      }
+      .section {
+        padding: 102px 0;
+      }
+      .section-head {
+        max-width: 760px;
+        margin-bottom: 42px;
+      }
+      .label {
+        font-size: 12px;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: var(--accent2);
+        margin-bottom: 12px;
+      }
+      .section h2 {
+        font-family: "Syne";
+        font-size: clamp(32px, 5vw, 58px);
+        line-height: 1.06;
+        letter-spacing: -0.055em;
+      }
+      .lead {
+        color: var(--muted);
+        font-size: 18px;
+        margin-top: 14px;
+        max-width: 660px;
+      }
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+      }
+      .card {
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.055),
+          rgba(255, 255, 255, 0.025)
+        );
+        border: 1px solid rgba(255, 255, 255, 0.09);
+        border-radius: var(--r);
+        padding: 25px;
+        position: relative;
+        overflow: hidden;
+        transition: 0.25s;
+      }
+      .card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(34, 197, 143, 0.28);
+      }
+      .card:before {
+        content: "";
+        position: absolute;
+        inset: auto -20% -60% -20%;
+        height: 160px;
+        background: radial-gradient(
+          circle,
+          rgba(29, 158, 117, 0.12),
+          transparent 70%
+        );
+      }
+      .icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 17px;
+        display: grid;
+        place-items: center;
+        font-size: 23px;
+        margin-bottom: 18px;
+        background: rgba(29, 158, 117, 0.13);
+        border: 1px solid rgba(29, 158, 117, 0.24);
+      }
+      .card h3 {
+        font-family: "Syne";
+        font-size: 21px;
+        letter-spacing: -0.03em;
+        margin-bottom: 8px;
+      }
+      .card p {
+        color: var(--muted);
+        font-size: 15px;
+      }
+      .mini {
+        display: inline-flex;
+        margin-top: 18px;
+        color: var(--accent2);
+        font-weight: 800;
+        font-size: 13px;
+      }
+      .problem-grid {
+        display: grid;
+        grid-template-columns: 0.9fr 1.1fr;
+        gap: 18px;
+        align-items: stretch;
+      }
+      .pain {
+        display: flex;
+        gap: 13px;
+        align-items: flex-start;
+        padding: 17px;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.045);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        margin-bottom: 12px;
+      }
+      .pain b {
+        display: block;
+      }
+      .pain span {
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .solution-box {
+        padding: 28px;
+        border-radius: var(--r2);
+        background: linear-gradient(
+          135deg,
+          rgba(29, 158, 117, 0.18),
+          rgba(59, 130, 246, 0.08)
+        );
+        border: 1px solid rgba(34, 197, 143, 0.25);
+        position: relative;
+        overflow: hidden;
+      }
+      .solution-box h3 {
+        font-family: "Syne";
+        font-size: 30px;
+        letter-spacing: -0.05em;
+        margin-bottom: 12px;
+      }
+      .timeline {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+      }
+      .titem {
+        border: 1px solid rgba(255, 255, 255, 0.09);
+        background: rgba(255, 255, 255, 0.035);
+        border-radius: 22px;
+        padding: 20px;
+      }
+      .titem .week {
+        font-size: 12px;
+        color: var(--accent2);
+        font-weight: 900;
+        margin-bottom: 9px;
+      }
+      .titem h3 {
+        font-family: "Syne";
+        font-size: 18px;
+        margin-bottom: 8px;
+      }
+      .titem p {
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .cities {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 12px;
+      }
+      .city {
+        border-radius: 22px;
+        padding: 20px;
+        background: var(--card);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+      .city:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--accent), var(--blue));
+      }
+      .city strong {
+        display: block;
+        font-family: "Syne";
+        font-size: 20px;
+      }
+      .city small {
+        color: var(--muted);
+      }
+      .city .spots {
+        margin-top: 12px;
+        height: 7px;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 99px;
+        overflow: hidden;
+      }
+      .city .spots span {
+        display: block;
+        height: 100%;
+        background: var(--accent);
+        border-radius: 99px;
+        width: var(--w);
+      }
+      .preview {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+      .preview-card {
+        min-height: 270px;
+        padding: 24px;
+        border-radius: var(--r2);
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        overflow: hidden;
+        position: relative;
+      }
+      .preview-card h3 {
+        font-family: "Syne";
+        font-size: 24px;
+        letter-spacing: -0.04em;
+        margin-bottom: 10px;
+      }
+      .preview-card p {
+        color: var(--muted);
+        max-width: 430px;
+      }
+      .activity-feed {
+        margin-top: 22px;
+        display: grid;
+        gap: 10px;
+      }
+      .feed-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: rgba(0, 0, 0, 0.16);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        border-radius: 17px;
+        padding: 11px;
+      }
+      .feed-row i {
+        font-style: normal;
+        width: 36px;
+        height: 36px;
+        border-radius: 13px;
+        display: grid;
+        place-items: center;
+        background: rgba(255, 255, 255, 0.06);
+      }
+      .feed-row small {
+        color: var(--muted);
+      }
+      .level-box {
+        margin-top: 24px;
+        background: #11131b;
+        border-radius: 18px;
+        padding: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .level-line {
+        height: 8px;
+        background: rgba(255, 255, 255, 0.09);
+        border-radius: 99px;
+        overflow: hidden;
+        margin: 12px 0;
+      }
+      .level-line span {
+        display: block;
+        height: 100%;
+        width: 68%;
+        background: linear-gradient(90deg, var(--accent), var(--gold));
+        border-radius: 99px;
+        animation: fill 2s ease both;
+      }
+      .badges {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .badge {
+        font-size: 12px;
+        color: var(--muted);
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 6px 9px;
+        border-radius: 999px;
+      }
+      .testimonials {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+      }
+      .quote {
+        background: var(--bg2);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: var(--r);
+        padding: 24px;
+      }
+      .quote p {
+        font-size: 15px;
+        color: #d8dae8;
+        font-style: italic;
+      }
+      .person {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 18px;
+      }
+      .person .face {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: rgba(29, 158, 117, 0.13);
+      }
+      .person b {
+        display: block;
+      }
+      .person small {
+        color: var(--muted);
+      }
+      .waitlist-wrap {
+        position: relative;
+      }
+      .waitlist {
+        display: grid;
+        grid-template-columns: 0.95fr 1.05fr;
+        gap: 24px;
+        align-items: stretch;
+        background: linear-gradient(
+          135deg,
+          rgba(34, 197, 143, 0.16),
+          rgba(59, 130, 246, 0.08) 48%,
+          rgba(236, 72, 153, 0.08)
+        );
+        border: 1px solid rgba(255, 255, 255, 0.11);
+        border-radius: 42px;
+        padding: 28px;
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+      .waitlist:before {
+        content: "";
+        position: absolute;
+        inset: -40%;
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.08),
+          transparent 38%
+        );
+        animation: spin 18s linear infinite;
+        z-index: -1;
+      }
+      .form-panel {
+        background: rgba(10, 11, 18, 0.72);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 32px;
+        padding: 24px;
+        backdrop-filter: blur(16px);
+      }
+      .form-panel h2 {
+        font-size: 42px;
+      }
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      .field {
+        margin-top: 12px;
+      }
+      .field label {
+        display: block;
+        font-size: 12px;
+        color: var(--muted);
+        font-weight: 800;
+        margin-bottom: 7px;
+      }
+      .field input,
+      .field select,
+      .field textarea {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        color: var(--text);
+        padding: 13px 14px;
+        outline: 0;
+        transition: 0.2s;
+      }
+      .field textarea {
+        resize: vertical;
+        min-height: 84px;
+      }
+      .field input:focus,
+      .field select:focus,
+      .field textarea:focus {
+        border-color: var(--accent2);
+        box-shadow: 0 0 0 4px rgba(29, 158, 117, 0.12);
+      }
+      .field select option {
+        background: #171721;
+        color: #fff;
+      }
+      .checkline {
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+        color: var(--muted);
+        font-size: 12px;
+        margin-top: 14px;
+      }
+      .checkline input {
+        margin-top: 4px;
+      }
+      .submit {
+        width: 100%;
+        margin-top: 16px;
+      }
+      .success {
+        display: none;
+        margin-top: 14px;
+        border: 1px solid rgba(34, 197, 143, 0.28);
+        background: rgba(29, 158, 117, 0.12);
+        color: #bfffe7;
+        border-radius: 18px;
+        padding: 14px;
+        font-size: 14px;
+      }
+      .wait-benefits {
+        padding: 16px;
+      }
+      .benefit {
+        display: flex;
+        gap: 14px;
+        padding: 17px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .benefit:last-child {
+        border-bottom: 0;
+      }
+      .benefit .num {
+        font-family: "Syne";
+        font-size: 28px;
+        font-weight: 800;
+        color: rgba(255, 255, 255, 0.2);
+        min-width: 52px;
+      }
+      .benefit h3 {
+        font-family: "Syne";
+        font-size: 19px;
+        letter-spacing: -0.03em;
+      }
+      .benefit p {
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .scarcity {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-top: 22px;
+      }
+      .scarcity div {
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 18px;
+        padding: 14px;
+        text-align: center;
+      }
+      .scarcity b {
+        font-family: "Syne";
+        font-size: 25px;
+        display: block;
+        color: var(--accent2);
+      }
+      .scarcity small {
+        color: var(--muted);
+      }
+      .quiz {
+        margin-top: 22px;
+        padding: 16px;
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .quiz h3 {
+        font-family: "Syne";
+        font-size: 18px;
+        margin-bottom: 12px;
+      }
+      .quiz-options {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .quiz-options button {
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--muted);
+        padding: 9px 12px;
+        border-radius: 999px;
+      }
+      .quiz-options button.active {
+        background: var(--accent);
+        color: white;
+        border-color: var(--accent);
+      }
+      .faq {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+      .faq details {
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 20px;
+        padding: 18px;
+      }
+      .faq summary {
+        cursor: pointer;
+        font-weight: 900;
+      }
+      .faq p {
+        color: var(--muted);
+        margin-top: 10px;
+        font-size: 14px;
+      }
+      .footer {
+        padding: 44px 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        color: var(--muted);
+      }
+      .footer-in {
+        display: flex;
+        justify-content: space-between;
+        gap: 18px;
+        flex-wrap: wrap;
+      }
+      .footer a {
+        text-decoration: none;
+        color: var(--muted);
+      }
+      .reveal {
+        opacity: 0;
+        transform: translateY(22px);
+        transition:
+          opacity 0.65s ease,
+          transform 0.65s ease;
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: none;
+      }
+      .confetti {
+        position: fixed;
+        top: -20px;
+        width: 8px;
+        height: 12px;
+        z-index: 999;
+        pointer-events: none;
+        animation: fall 1.4s linear forwards;
+      }
+      .sticky-mobile {
+        display: none;
+        position: fixed;
+        left: 12px;
+        right: 12px;
+        bottom: 12px;
+        z-index: 60;
+      }
+      .sticky-mobile .btn {
+        width: 100%;
+        box-shadow: 0 16px 48px rgba(29, 158, 117, 0.35);
+      }
+      @keyframes pulse {
+        70% {
+          box-shadow: 0 0 0 11px rgba(34, 197, 143, 0);
+        }
+      }
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-12px);
+        }
+      }
+      @keyframes pin {
+        0%,
+        100% {
+          transform: translateY(0) scale(1);
+        }
+        50% {
+          transform: translateY(-6px) scale(1.04);
+        }
+      }
+      @keyframes ripple {
+        0% {
+          transform: scale(0.82);
+          opacity: 0.35;
+        }
+        80%,
+        100% {
+          transform: scale(1.28);
+          opacity: 0;
+        }
+      }
+      @keyframes marquee {
+        to {
+          transform: translateX(-50%);
+        }
+      }
+      @keyframes fill {
+        from {
+          width: 0;
+        }
+        to {
+          width: 68%;
+        }
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      @keyframes fall {
+        to {
+          transform: translateY(110vh) rotate(640deg);
+          opacity: 0;
+        }
+      }
+      @media (max-width: 980px) {
+        .hero-layout,
+        .problem-grid,
+        .preview,
+        .waitlist {
+          grid-template-columns: 1fr;
+        }
+        .phone-area {
+          min-height: 580px;
+          order: -1;
+        }
+        .cards,
+        .testimonials {
+          grid-template-columns: 1fr 1fr;
+        }
+        .timeline {
+          grid-template-columns: 1fr 1fr;
+        }
+        .cities {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .wait-benefits {
+          padding: 0;
+        }
+        .form-panel h2 {
+          font-size: 34px;
+        }
+        .nav-links {
+          display: none;
+        }
+        .hamb {
+          display: block;
+        }
+        .mobile-menu.open {
+          display: block;
+        }
+        .sticky-mobile {
+          display: block;
+        }
+      }
+      @media (max-width: 640px) {
+        .container {
+          width: min(100% - 28px, 1160px);
+        }
+        .hero {
+          padding-top: 104px;
+        }
+        .hero h1 {
+          font-size: 46px;
+        }
+        .hero-sub {
+          font-size: 16px;
+        }
+        .hero-actions .btn {
+          width: 100%;
+        }
+        .cards,
+        .testimonials,
+        .timeline,
+        .cities,
+        .faq {
+          grid-template-columns: 1fr;
+        }
+        .phone {
+          width: 292px;
+          height: 588px;
+        }
+        .phone-area {
+          min-height: 560px;
+        }
+        .float-card {
+          display: none;
+        }
+        .section {
+          padding: 72px 0;
+        }
+        .section h2 {
+          font-size: 34px;
+        }
+        .cat-grid {
+          grid-template-columns: 1fr;
+        }
+        .waitlist {
+          padding: 14px;
+          border-radius: 30px;
+        }
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+        .scarcity {
+          grid-template-columns: 1fr;
+        }
+        .nav {
+          height: 68px;
+        }
+        .mobile-menu {
+          top: 68px;
+        }
+        .footer-in {
+          display: block;
+        }
+        .brand-name {
+          font-size: 20px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *:before,
+        *:after {
+          animation: none !important;
+          transition: none !important;
+          scroll-behavior: auto !important;
+        }
+        .reveal {
+          opacity: 1;
+          transform: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="nav">
+      <div class="container nav-in">
+        <a class="brand" href="#top" aria-label="Joinly">
+          <img class="brand-logo" src="assets/logo.png" alt="Joinly" />
+        </a>
+        <ul class="nav-links">
+          <li><a href="#problem">Problem</a></li>
+          <li><a href="#jak">Jak działa</a></li>
+          <li><a href="#funkcje">Funkcje</a></li>
+          <li><a href="#roadmapa">Start</a></li>
+          <li><a href="#waitlist" class="nav-cta">Dołącz do bety</a></li>
+        </ul>
+        <button class="hamb" id="hamb" aria-label="Menu">☰</button>
+      </div>
+    </nav>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#problem">Problem</a><a href="#jak">Jak działa</a
+      ><a href="#funkcje">Funkcje</a><a href="#roadmapa">Start</a
+      ><a href="#waitlist">Dołącz do bety</a>
+    </div>
+    <div class="sticky-mobile">
+      <a href="#waitlist" class="btn btn-primary"
+        >Zapisz się na early access →</a
+      >
+    </div>
+
+    <header class="hero" id="top">
+      <div class="grid-bg"></div>
+      <div class="container hero-layout">
+        <div class="hero-copy reveal">
+          <div class="eyebrow">
+            <span class="pulse-dot"></span> Zamknięta beta · pierwsza fala
+            użytkowników
+          </div>
+          <h1>
+            Nie szukaj znajomych.
+            <span class="gradient-text">Dołącz do życia wokół Ciebie.</span>
+          </h1>
+          <p class="hero-sub">
+            Joinly to mapa spontanicznych aktywności: siatkówka za godzinę, kawa
+            po pracy, rower wieczorem, planszówki w weekend.
+            <b>Zostaw email i wejdź jako jeden z pierwszych.</b>
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#waitlist">Chcę early access →</a
+            ><a class="btn btn-ghost" href="#jak">Zobacz mechanikę</a>
+          </div>
+          <div class="hero-micro">
+            <span>🔒 zero spamu</span><span>⚡ zaproszenie przed startem</span
+            ><span>🎁 bonus dla pierwszych osób</span>
+          </div>
+          <div class="avatars">
+            <div class="av-stack">
+              <div class="av">🏃</div>
+              <div class="av">🎮</div>
+              <div class="av">☕</div>
+              <div class="av">🎨</div>
+            </div>
+            <p>
+              <b>Dołącz do listy oczekujących</b><br />i pomóż zdecydować, w
+              których miastach startujemy najpierw.
+            </p>
+          </div>
+        </div>
+        <div class="phone-area reveal">
+          <div class="orb one"></div>
+          <div class="orb two"></div>
+          <div class="orb three"></div>
+          <div class="float-card left">
+            <div class="fc-title">+12 osób czeka w Warszawie</div>
+            <div class="fc-sub">najaktywniejsze miasto dzisiaj</div>
+          </div>
+          <div class="float-card right">
+            <div class="fc-title">Nowy pin: rower 🚲</div>
+            <div class="fc-sub">2.1 km · start za 50 min</div>
+          </div>
+          <div class="float-card bottom">
+            <div class="fc-title">Early badge odblokowany</div>
+            <div class="fc-sub">dla pierwszych 500 zapisów</div>
+          </div>
+          <div class="phone" aria-label="Mockup aplikacji Joinly">
+            <div class="map"></div>
+            <div class="pbar">
+              <div class="pbrand">Joinly</div>
+              <div class="pchip">Live mapa</div>
+            </div>
+            <div class="filters">
+              <div class="filter active">Wszystkie</div>
+              <div class="filter">⚽ Sport</div>
+              <div class="filter">☕ Kawa</div>
+              <div class="filter">🎮 Gry</div>
+            </div>
+            <div class="pin" style="left: 56px; top: 168px; color: var(--blue)">
+              ⚽
+            </div>
+            <div
+              class="pin"
+              style="
+                right: 58px;
+                top: 210px;
+                color: var(--gold);
+                animation-delay: 0.4s;
+              "
+            >
+              ☕
+            </div>
+            <div
+              class="pin"
+              style="
+                left: 118px;
+                top: 300px;
+                color: var(--pink);
+                animation-delay: 0.7s;
+              "
+            >
+              🎨
+            </div>
+            <div
+              class="pin"
+              style="
+                right: 92px;
+                top: 380px;
+                color: var(--accent2);
+                animation-delay: 1s;
+              "
+            >
+              🚲
+            </div>
+            <div class="sheet">
+              <div class="handle"></div>
+              <h3>Aktywności blisko Ciebie</h3>
+              <div class="activity">
+                <div class="aicon">⚽</div>
+                <div>
+                  <b>Siatkówka na boisku</b
+                  ><small>za 45 min · 4 osoby · 1.4 km</small>
+                </div>
+                <button class="join">Dołącz</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div class="strip">
+      <div class="marquee">
+        <span>📍 <b>piny na mapie</b></span
+        ><span>🤝 poznawanie przez aktywność</span
+        ><span>🎮 gry · sport · kawa · wyjścia</span><span>🏆 early badge</span
+        ><span>💬 czat aktywności</span
+        ><span>🚀 start od największych miast</span
+        ><span>📍 <b>piny na mapie</b></span
+        ><span>🤝 poznawanie przez aktywność</span
+        ><span>🎮 gry · sport · kawa · wyjścia</span><span>🏆 early badge</span>
+      </div>
+    </div>
+
+    <section class="section" id="problem">
+      <div class="container problem-grid">
+        <div class="section-head reveal">
+          <div class="label">Dlaczego Joinly</div>
+          <h2>
+            Bo większość aplikacji pomaga pisać.
+            <span class="gradient-text">My pomagamy wyjść.</span>
+          </h2>
+          <p class="lead">
+            Nie kolejny feed, nie kolejne swipowanie. Joinly ma skracać drogę od
+            „nudzi mi się” do „widzę się z ludźmi za godzinę”.
+          </p>
+        </div>
+        <div class="reveal">
+          <div class="pain">
+            😶‍🌫️
+            <div>
+              <b>Masz ludzi w mieście, ale trudno ich poznać</b
+              ><span
+                >Grupy są martwe, eventy wymagają planowania, a DM-y bywają
+                niezręczne.</span
+              >
+            </div>
+          </div>
+          <div class="pain">
+            🕒
+            <div>
+              <b>Chcesz coś zrobić teraz, nie za trzy tygodnie</b
+              ><span
+                >Joinly stawia na krótkie okno czasu: dziś, za godzinę, w
+                weekend.</span
+              >
+            </div>
+          </div>
+          <div class="pain">
+            🧊
+            <div>
+              <b>Pierwszy kontakt jest łatwiejszy, gdy macie wspólny powód</b
+              ><span
+                >Nie zaczynasz od „hej”, tylko od aktywności: mecz, kawa,
+                spacer, projekt.</span
+              >
+            </div>
+          </div>
+          <div class="solution-box">
+            <h3>Mechanika: aktywność najpierw, znajomość potem.</h3>
+            <p>
+              Użytkownik wrzuca pina, inni widzą go na mapie, dołączają, dostają
+              czat i prosty plan spotkania. Im więcej realnych aktywności, tym
+              większy Join Score i zaufanie.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="jak">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="label">Jak działa</div>
+          <h2>3 kroki, które rozumie każdy.</h2>
+          <p class="lead">
+            Landing ma sprzedawać nie technologię, tylko uczucie: „mogę dziś
+            zrobić coś ciekawego z ludźmi”.
+          </p>
+        </div>
+        <div class="cards reveal">
+          <div class="card">
+            <div class="icon">📍</div>
+            <h3>1. Wrzucasz pina</h3>
+            <p>
+              Wybierasz kategorię, miejsce, godzinę, limit osób i krótki opis.
+              Gotowe w kilkanaście sekund.
+            </p>
+            <span class="mini">Przykład: „rower 18:30, spokojne tempo”</span>
+          </div>
+          <div class="card">
+            <div class="icon">👀</div>
+            <h3>2. Ludzie w pobliżu to widzą</h3>
+            <p>
+              Aktywność pojawia się na mapie i w feedzie miasta. Nie trzeba znać
+              organizatora wcześniej.
+            </p>
+            <span class="mini">Mapa + filtry + powiadomienia</span>
+          </div>
+          <div class="card">
+            <div class="icon">🤝</div>
+            <h3>3. Dołączacie i wychodzicie</h3>
+            <p>
+              Jedno kliknięcie, czat grupowy, potwierdzenie, mini zasady
+              bezpieczeństwa i spotkanie.
+            </p>
+            <span class="mini">Mniej pisania, więcej robienia</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="funkcje">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="label">Mechaniki, które mają wciągać</div>
+          <h2>
+            Nie tylko lista wydarzeń.
+            <span class="gradient-text">Ma się chcieć wracać.</span>
+          </h2>
+        </div>
+        <div class="preview reveal">
+          <div class="preview-card">
+            <h3>Live aktywności</h3>
+            <p>
+              Krótki feed rzeczy, które naprawdę można zrobić blisko Ciebie.
+            </p>
+            <div class="activity-feed">
+              <div class="feed-row">
+                <i>🏀</i>
+                <div>
+                  <b>Kosz 3v3</b><small>2 miejsca · start za 35 min</small>
+                </div>
+              </div>
+              <div class="feed-row">
+                <i>☕</i>
+                <div>
+                  <b>Kawa i nauka angielskiego</b
+                  ><small>5 osób · centrum</small>
+                </div>
+              </div>
+              <div class="feed-row">
+                <i>🎲</i>
+                <div>
+                  <b>Planszówki wieczorem</b><small>nowy pin · 1.8 km</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="preview-card">
+            <h3>Join Score i odznaki</h3>
+            <p>
+              Bez presji, ale z poczuciem progresu. Organizujesz, dołączasz,
+              dostajesz reputację.
+            </p>
+            <div class="level-box">
+              <b>Explorer → Connector</b>
+              <div class="level-line"><span></span></div>
+              <div class="badges">
+                <span class="badge">Early User</span
+                ><span class="badge">First Host</span
+                ><span class="badge">Sport Crew</span
+                ><span class="badge">City Starter</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="cards reveal" style="margin-top: 16px">
+          <div class="card">
+            <div class="icon">🛡️</div>
+            <h3>Bezpieczny start</h3>
+            <p>
+              Publiczne miejsca, limity osób, raportowanie, reputacja i
+              podstawowe zasady spotkań.
+            </p>
+          </div>
+          <div class="card">
+            <div class="icon">🎁</div>
+            <h3>Bonus za waitlistę</h3>
+            <p>
+              Pierwsze osoby dostają early badge, priorytetowy dostęp i
+              możliwość wpływu na funkcje.
+            </p>
+          </div>
+          <div class="card">
+            <div class="icon">📣</div>
+            <h3>Ambasadorzy miast</h3>
+            <p>
+              Osoby, które pomogą rozruszać mapę w Warszawie, Krakowie,
+              Wrocławiu, Poznaniu i Gdańsku.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="label">Miasta na start</div>
+          <h2>Głosujesz emailem, gdzie mamy wejść najmocniej.</h2>
+          <p class="lead">
+            Im więcej zapisów z miasta, tym szybciej odpalamy tam ambasadorów,
+            grupy beta i pierwsze aktywności.
+          </p>
+        </div>
+        <div class="cities reveal">
+          <div class="city">
+            <strong>Warszawa</strong><small>największa beta</small>
+            <div class="spots"><span style="--w: 74%"></span></div>
+          </div>
+          <div class="city">
+            <strong>Kraków</strong><small>studenci i eventy</small>
+            <div class="spots"><span style="--w: 58%"></span></div>
+          </div>
+          <div class="city">
+            <strong>Wrocław</strong><small>sport i wyjścia</small>
+            <div class="spots"><span style="--w: 45%"></span></div>
+          </div>
+          <div class="city">
+            <strong>Poznań</strong><small>testy lokalne</small>
+            <div class="spots"><span style="--w: 39%"></span></div>
+          </div>
+          <div class="city">
+            <strong>Gdańsk</strong><small>outdoor i lato</small>
+            <div class="spots"><span style="--w: 32%"></span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="roadmapa">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="label">Co dostajesz po zapisie</div>
+          <h2>
+            Nie zapisujesz się „w próżnię”.
+            <span class="gradient-text"
+              >Dostajesz miejsce w pierwszej fali.</span
+            >
+          </h2>
+        </div>
+        <div class="timeline reveal">
+          <div class="titem">
+            <div class="week">KROK 1</div>
+            <h3>Lista oczekujących</h3>
+            <p>Zbieramy miasta, typy aktywności i osoby chętne do bety.</p>
+          </div>
+          <div class="titem">
+            <div class="week">KROK 2</div>
+            <h3>Beta zamknięta</h3>
+            <p>Pierwsze zaproszenia, testy mapy, pierwsze piny i feedback.</p>
+          </div>
+          <div class="titem">
+            <div class="week">KROK 3</div>
+            <h3>Ambasadorzy</h3>
+            <p>
+              Najaktywniejsi użytkownicy dostają rolę City Starter i bonusy.
+            </p>
+          </div>
+          <div class="titem">
+            <div class="week">KROK 4</div>
+            <h3>Publiczny start</h3>
+            <p>
+              Otwarcie miasta, launch social media i większa fala użytkowników.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="label">Social proof</div>
+          <h2>Komunikaty, które budują wyobrażenie produktu.</h2>
+        </div>
+        <div class="testimonials reveal">
+          <div class="quote">
+            <p>
+              „Najlepsze jest to, że nie muszę pisać do obcych bez powodu. Po
+              prostu dołączam do aktywności.”
+            </p>
+            <div class="person">
+              <div class="face">🏃</div>
+              <div><b>Kasia</b><small>bieganie + kawa</small></div>
+            </div>
+          </div>
+          <div class="quote">
+            <p>
+              „To brzmi jak aplikacja, której brakowało na studiach — ludzie są
+              blisko, tylko nie mają pretekstu.”
+            </p>
+            <div class="person">
+              <div class="face">🎮</div>
+              <div><b>Maciek</b><small>planszówki i sport</small></div>
+            </div>
+          </div>
+          <div class="quote">
+            <p>
+              „Jeśli mapa będzie żyła, to może zastąpić martwe grupki na
+              Messengerze.”
+            </p>
+            <div class="person">
+              <div class="face">☕</div>
+              <div><b>Ola</b><small>eventy lokalne</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section waitlist-wrap" id="waitlist">
+      <div class="container waitlist reveal">
+        <div class="form-panel">
+          <div class="label">Early Access</div>
+          <h2>Zapisz się i odbierz miejsce w becie.</h2>
+          <p class="lead" style="font-size: 15px; margin-bottom: 14px">
+            Im dokładniej odpowiesz, tym łatwiej zaprosimy Cię do właściwej fali
+            miasta.
+          </p>
+          <form
+            name="joinly-waitlist"
+            method="POST"
+            action="/?success=true"
+            data-netlify="true"
+            data-netlify-honeypot="bot-field"
+            netlify-honeypot="bot-field"
+            id="waitlistForm"
+          >
+            <input type="hidden" name="form-name" value="joinly-waitlist" />
+            <p style="display: none">
+              <label
+                >Nie wypełniaj:
+                <input name="bot-field" tabindex="-1" autocomplete="off"
+              /></label>
+            </p>
+            <div class="field">
+              <label>Email</label
+              ><input
+                name="email"
+                id="email"
+                type="email"
+                placeholder="twoj@email.pl"
+                required
+                autocomplete="email"
+              />
+            </div>
+            <div class="form-row">
+              <div class="field">
+                <label>Miasto</label
+                ><select name="city" id="city" required>
+                  <option value="">Wybierz miasto</option>
+                  <option>Warszawa</option>
+                  <option>Kraków</option>
+                  <option>Wrocław</option>
+                  <option>Poznań</option>
+                  <option>Gdańsk</option>
+                  <option>Inne</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>Najbardziej interesuje mnie</label
+                ><select name="interest" id="interest" required>
+                  <option value="">Wybierz</option>
+                  <option>Sport i treningi</option>
+                  <option>Kawa / jedzenie</option>
+                  <option>Gry / planszówki</option>
+                  <option>Wyjazdy / eventy</option>
+                  <option>Kreatywne aktywności</option>
+                  <option>Nauka / języki</option>
+                </select>
+              </div>
+            </div>
+            <div class="field">
+              <label
+                >Dlaczego chcesz Joinly?
+                <span style="color: var(--dim)">(opcjonalnie)</span></label
+              ><textarea
+                name="reason"
+                placeholder="Np. chcę poznać ludzi do sportu, wyjść z domu, znaleźć ekipę..."
+              ></textarea>
+            </div>
+            <label class="checkline"
+              ><input type="checkbox" name="ambassador" value="yes" /> Chcę
+              dostać info o roli ambasadora miasta / beta testera.</label
+            >
+            <label class="checkline"
+              ><input type="checkbox" name="consent" value="yes" required />
+              Zgadzam się na kontakt mailowy w sprawie bety Joinly. Zero
+              spamu.</label
+            >
+            <input type="hidden" name="ref_code" id="refCodeInput" />
+            <input type="hidden" name="source" value="joinly.tech landing" />
+            <button class="btn btn-primary submit" type="submit" id="submitBtn">
+              Dołączam do waitlisty →
+            </button>
+            <div class="success" id="success">
+              ✓ Zapis przyjęty. Sprawdź maila przed startem bety. Twój kod:
+              <b id="refCode"></b>
+            </div>
+          </form>
+        </div>
+        <div class="wait-benefits">
+          <div class="benefit">
+            <div class="num">01</div>
+            <div>
+              <h3>Early badge</h3>
+              <p>
+                Pierwsza fala użytkowników dostanie odznakę, która później
+                pokazuje, że byłeś od początku.
+              </p>
+            </div>
+          </div>
+          <div class="benefit">
+            <div class="num">02</div>
+            <div>
+              <h3>Priorytetowe zaproszenie</h3>
+              <p>
+                Najpierw wpuszczamy osoby z aktywnych miast i tych, którzy chcą
+                realnie testować.
+              </p>
+            </div>
+          </div>
+          <div class="benefit">
+            <div class="num">03</div>
+            <div>
+              <h3>Wpływ na funkcje</h3>
+              <p>
+                Głosujesz na kategorie, mechaniki i miasta. To ma być aplikacja
+                budowana z użytkownikami.
+              </p>
+            </div>
+          </div>
+          <div class="scarcity">
+            <div><b id="spots">500</b><small>miejsc early</small></div>
+            <div><b>5</b><small>miast startu</small></div>
+            <div><b>0 zł</b><small>za zapis</small></div>
+          </div>
+          <div class="quiz">
+            <h3>Szybki wybór: co chcesz robić z ludźmi?</h3>
+            <div class="quiz-options" id="quiz">
+              <button type="button">⚽ Sport</button
+              ><button type="button">☕ Kawa</button
+              ><button type="button">🎮 Gry</button
+              ><button type="button">🚲 Outdoor</button
+              ><button type="button">📚 Nauka</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="label">FAQ</div>
+          <h2>Pytania, które ludzie mogą mieć przed zostawieniem maila.</h2>
+        </div>
+        <div class="faq reveal">
+          <details>
+            <summary>Czy to jest aplikacja randkowa?</summary>
+            <p>
+              Nie. Joinly skupia się na aktywnościach i znajomościach przez
+              wspólne robienie rzeczy. Randki mogą się zdarzyć, ale nie są
+              główną mechaniką.
+            </p>
+          </details>
+          <details>
+            <summary>Czy zapis jest darmowy?</summary>
+            <p>
+              Tak. Waitlista jest darmowa. Mail służy tylko do zaproszenia do
+              bety i informacji o starcie.
+            </p>
+          </details>
+          <details>
+            <summary>Kiedy dostanę dostęp?</summary>
+            <p>
+              Najpierw zapraszamy osoby z miast, gdzie zbierze się najwięcej
+              chętnych. Dzięki temu mapa nie będzie pusta.
+            </p>
+          </details>
+          <details>
+            <summary>Czy mogę zostać ambasadorem?</summary>
+            <p>
+              Tak. Zaznacz checkbox w formularzu. Ambasadorzy pomagają tworzyć
+              pierwsze aktywności w swoich miastach.
+            </p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container footer-in">
+        <div>
+          <div class="brand">
+            <img
+              class="brand-logo"
+              src="assets/joinly-logo-transparent.png"
+              alt="Joinly"
+            />
+          </div>
+          <p style="margin-top: 10px">Poznawaj ludzi przez to, co robisz.</p>
+        </div>
+        <div>
+          <a href="mailto:hello@joinly.tech">hello@joinly.tech</a><br /><span
+            >© 2026 Joinly</span
+          >
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="waitlist-supabase-config.js"></script>
+    <script>
+      const $ = (s) => document.querySelector(s);
+      const $$ = (s) => document.querySelectorAll(s);
+      $("#hamb").addEventListener("click", () =>
+        $("#mobileMenu").classList.toggle("open"),
+      );
+      $$("#mobileMenu a").forEach((a) =>
+        a.addEventListener("click", () =>
+          $("#mobileMenu").classList.remove("open"),
+        ),
+      );
+      const io = new IntersectionObserver(
+        (entries) =>
+          entries.forEach((e, i) => {
+            if (e.isIntersecting) {
+              setTimeout(() => e.target.classList.add("visible"), i * 70);
+              io.unobserve(e.target);
+            }
+          }),
+        { threshold: 0.12 },
+      );
+      $$(".reveal").forEach((el) => io.observe(el));
+      function confetti() {
+        for (let i = 0; i < 42; i++) {
+          const p = document.createElement("i");
+          p.className = "confetti";
+          p.style.left = Math.random() * 100 + "vw";
+          p.style.background = [
+            "#1D9E75",
+            "#22c58f",
+            "#3b82f6",
+            "#f8b84e",
+            "#ec4899",
+          ][i % 5];
+          p.style.animationDelay = Math.random() * 0.25 + "s";
+          document.body.appendChild(p);
+          setTimeout(() => p.remove(), 1600);
+        }
+      }
+      function makeCode(email) {
+        const base = (email || "JOINLY")
+          .split("@")[0]
+          .replace(/[^a-z0-9]/gi, "")
+          .slice(0, 6)
+          .toUpperCase();
+        return "J-" + base + "-" + Math.floor(100 + Math.random() * 899);
+      }
+
+      async function saveToSupabase(formData, code) {
+        const url = window.JOINLY_SUPABASE_URL || "";
+        const key = window.JOINLY_SUPABASE_ANON_KEY || "";
+        if (!url || !key || url.includes("TWOJ_") || key.includes("TWOJ_"))
+          return { skipped: true };
+        const client = window.supabase.createClient(url, key);
+        const payload = {
+          email: String(formData.get("email") || "")
+            .trim()
+            .toLowerCase(),
+          city: formData.get("city") || null,
+          interest: formData.get("interest") || null,
+          reason: formData.get("reason") || null,
+          ambassador: formData.get("ambassador") === "yes",
+          consent: formData.get("consent") === "yes",
+          ref_code: code,
+          source: formData.get("source") || "joinly.tech landing",
+          page_url: location.href,
+          user_agent: navigator.userAgent,
+        };
+        const { error } = await client.from("joinly_waitlist").insert(payload);
+        if (
+          error &&
+          String(error.message || "")
+            .toLowerCase()
+            .includes("duplicate")
+        )
+          return { duplicate: true };
+        if (error) throw error;
+        return { ok: true };
+      }
+      async function saveToNetlify(formData) {
+        // Netlify Forms wymaga pola form-name oraz wysyłki jako application/x-www-form-urlencoded.
+        // Dzięki temu zgłoszenia pojawią się w Netlify → Forms → joinly-waitlist.
+        if (!formData.get("form-name"))
+          formData.append("form-name", "joinly-waitlist");
+        const encoded = new URLSearchParams(formData).toString();
+        const response = await fetch("/", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: encoded,
+        });
+        if (!response.ok) throw new Error("Netlify Forms: " + response.status);
+        return { ok: true };
+      }
+      $("#waitlistForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const form = e.currentTarget;
+        const btn = $("#submitBtn");
+        const email = $("#email").value;
+        const code = makeCode(email);
+        $("#refCode").textContent = code;
+        $("#refCodeInput").value = code;
+        const formData = new FormData(form);
+        localStorage.setItem("joinly_waitlist_email", email);
+        localStorage.setItem("joinly_waitlist_city", $("#city").value);
+        localStorage.setItem("joinly_ref", code);
+        btn.disabled = true;
+        btn.textContent = "Zapisywanie...";
+        const results = await Promise.allSettled([
+          saveToNetlify(formData),
+          saveToSupabase(formData, code),
+          sendWelcomeEmail(formData, code),
+        ]);
+        const success = results.some(
+          (r) =>
+            r.status === "fulfilled" &&
+            (r.value.ok || r.value.duplicate || r.value.skipped),
+        );
+        if (success) {
+          $("#success").style.display = "block";
+          btn.textContent = "✓ Zapisano";
+          confetti();
+        } else {
+          btn.disabled = false;
+          btn.textContent = "Spróbuj ponownie";
+          alert(
+            "Nie udało się zapisać. Sprawdź Netlify Forms albo konfigurację Supabase.",
+          );
+        }
+      });
+      $$("#quiz button").forEach((btn) =>
+        btn.addEventListener("click", () => {
+          btn.classList.toggle("active");
+          const current = $("#interest");
+          if (btn.classList.contains("active") && !current.value) {
+            const txt = btn.textContent;
+            if (txt.includes("Sport")) current.value = "Sport i treningi";
+            if (txt.includes("Kawa")) current.value = "Kawa / jedzenie";
+            if (txt.includes("Gry")) current.value = "Gry / planszówki";
+            if (txt.includes("Outdoor")) current.value = "Wyjazdy / eventy";
+            if (txt.includes("Nauka")) current.value = "Nauka / języki";
+          }
+        }),
+      );
+      let spots = 500;
+      const saved = localStorage.getItem("joinly_waitlist_email");
+      if (saved) {
+        $("#email").value = saved;
+        $("#success").style.display = "block";
+        $("#refCode").textContent =
+          localStorage.getItem("joinly_ref") || "J-EARLY-001";
+      }
+      setInterval(() => {
+        spots = Math.max(417, spots - Math.floor(Math.random() * 2));
+        $("#spots").textContent = spots;
+      }, 4500);
+
+      async function sendWelcomeEmail(formData, code) {
+        const payload = {
+          email: formData.get("email"),
+          city: formData.get("city"),
+          interest: formData.get("interest"),
+          ref_code: code,
+        };
+
+        const response = await fetch("/.netlify/functions/send-welcome-email", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        });
+
+        if (!response.ok) {
+          throw new Error("Nie udało się wysłać maila powitalnego");
+        }
+
+        return { ok: true };
+      }
+    </script>
+  </body>
+</html>

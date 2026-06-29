@@ -33,6 +33,8 @@ exports.handler = async function (event) {
       };
     }
 
+    const referralLink = `https://joinly.tech/?ref=${refCode}`;
+
     const emailHtml = `
 <!DOCTYPE html>
 <html>
@@ -55,9 +57,8 @@ Jesteś teraz wśród pierwszych użytkowników Joinly.
 </p>
 
 <div style="margin:30px 0;padding:30px;background:#f9fafb;border-radius:20px;text-align:center;">
-<p>Twój kod referral:</p>
-<div style="font-size:30px;font-weight:bold;letter-spacing:3px;">
-${refCode}
+<p>Twój link polecający:</p>
+<p>${referralLink}</p>
 </div>
 </div>
 

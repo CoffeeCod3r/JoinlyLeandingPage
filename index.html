@@ -2039,6 +2039,12 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="waitlist-supabase-config.js"></script>
     <script>
+      const urlParams = new URLSearchParams(window.location.search);
+      const ref = urlParams.get("ref");
+
+      if (ref) {
+        localStorage.setItem("joinly_referral", ref);
+      }
       const $ = (s) => document.querySelector(s);
       const $$ = (s) => document.querySelectorAll(s);
       $("#hamb").addEventListener("click", () =>

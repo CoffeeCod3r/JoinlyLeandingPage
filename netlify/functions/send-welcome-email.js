@@ -1,17 +1,34 @@
+const { createClient } = require("@supabase/supabase-js");
+
 exports.handler = async function (event) {
   try {
     if (event.httpMethod !== "POST") {
       return {
         statusCode: 405,
-        body: JSON.stringify({ error: "Method not allowed" })
+        body: JSON.stringify({ error: "Method not allowed" }),
       };
     }
 
     const data = JSON.parse(event.body || "{}");
 
-    const email = String(data.email || "").trim().toLowerCase();
+    const email = String(data.email || "")
+      .trim()
+      .toLowerCase();
     const city = data.city || "";
     const interest = data.interest || "";
+    const referredBy = data.referred_by || null;
+
+    if (!email || !email.includes("@")) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ error: "Invalid email" }),
+      };
+    }
+
+    const supabase = createClient(
+      process.env.SUPABASE_URL,
+      process.env.SUPABASE_SERVICE_ROLE_KEY,
+    );
 
     function generateReferralCode() {
       const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -24,115 +41,120 @@ exports.handler = async function (event) {
       return code;
     }
 
-    const refCode = data.ref_code || generateReferralCode();
+    const referralCode = generateReferralCode();
 
-    if (!email || !email.includes("@")) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({ error: "Invalid email" })
-      };
-    }
-
-    const referralLink = `https://joinly.tech/?ref=${refCode}`;
-
-    const emailHtml = `
-<!DOCTYPE html>
-<html>
-<body style="margin:0;padding:0;background:#eef2ff;font-family:Arial,sans-serif;">
-
-<div style="max-width:620px;margin:40px auto;background:white;border-radius:24px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.08);">
-
-<div style="background:linear-gradient(135deg,#111827,#312e81,#7c3aed);padding:60px 40px;text-align:center;">
-<h1 style="margin:0;color:white;font-size:42px;">🚀 Joinly</h1>
-<p style="color:#d1d5db;font-size:18px;">Poznawaj ludzi przez wspólne zainteresowania</p>
-</div>
-
-<div style="padding:40px;">
-<h2>Witaj w Joinly 👋</h2>
-
-<p>Dzięki za zapis do early access.</p>
-
-<p>
-Jesteś teraz wśród pierwszych użytkowników Joinly.
-</p>
-
-<div style="margin:30px 0;padding:30px;background:#f9fafb;border-radius:20px;text-align:center;">
-<p>Twój link polecający:</p>
-<p>${referralLink}</p>
-</div>
-</div>
-
-<div style="padding:24px;background:#ede9fe;border-radius:20px;">
-<h3>🎁 Bonus dla Ciebie</h3>
-<p>Zaprosisz 5 znajomych?</p>
-<p><b>Dostaniesz Joinly Premium za darmo na 1 miesiąc.</b></p>
-</div>
-
-<div style="margin-top:24px;padding:24px;background:#f8fafc;border-radius:20px;">
-<p><b>Miasto:</b> ${city || "Nie podano"}</p>
-<p><b>Zainteresowania:</b> ${interest || "Nie podano"}</p>
-</div>
-
-<p style="margin-top:30px;">
-Do zobaczenia,<br>
-<b>Zespół Joinly</b>
-</p>
-</div>
-</div>
-
-</body>
-</html>
-`;
-
-    const response = await fetch("https://api.sendgrid.com/v3/mail/send", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${process.env.SENDGRID_API_KEY}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        personalizations: [
-          {
-            to: [{ email }]
-          }
-        ],
-        from: {
-          email: "hello@joinly.tech",
-          name: "Joinly"
-        },
-        subject: "🚀 Witaj w Joinly",
-        content: [
-          {
-            type: "text/html",
-            value: emailHtml
-          }
-        ]
+    const { data: newUser, error } = await supabase
+      .from("waitlist_users")
+      .insert({
+        email,
+        city,
+        interest,
+        referral_code: referralCode,
+        referred_by: referredBy,
       })
-    });
+      .select()
+      .single();
 
-    if (!response.ok) {
-      const errorText = await response.text();
+    if (error) throw error;
 
-      return {
-        statusCode: 500,
-        body: JSON.stringify({ error: errorText })
-      };
+    if (referredBy) {
+      await handleReferral(supabase, newUser, referredBy);
     }
+
+    await sendWelcomeEmail(email, city, interest, referralCode);
 
     return {
       statusCode: 200,
       body: JSON.stringify({
         ok: true,
-        referralCode: refCode
-      })
+        referralCode,
+      }),
     };
   } catch (error) {
     return {
       statusCode: 500,
       body: JSON.stringify({
-        error: error.message
-      })
+        error: error.message,
+      }),
     };
   }
 };
 
+async function handleReferral(supabase, newUser, referredBy) {
+  const { data: referrer } = await supabase
+    .from("waitlist_users")
+    .select("*")
+    .eq("referral_code", referredBy)
+    .single();
+
+  if (!referrer) return;
+
+  await supabase.from("referrals").insert({
+    referrer_id: referrer.id,
+    referred_user_id: newUser.id,
+  });
+
+  const newCount = (referrer.referral_count || 0) + 1;
+
+  const updateData = {
+    referral_count: newCount,
+  };
+
+  if (newCount >= 5) {
+    const premiumDate = new Date();
+    premiumDate.setMonth(premiumDate.getMonth() + 1);
+
+    updateData.pro_unlocked = true;
+    updateData.pro_expires_at = premiumDate.toISOString();
+  }
+
+  await supabase
+    .from("waitlist_users")
+    .update(updateData)
+    .eq("id", referrer.id);
+}
+
+async function sendWelcomeEmail(email, city, interest, referralCode) {
+  const referralLink = `https://joinly.tech/?ref=${referralCode}`;
+
+  const emailHtml = `
+  <html>
+  <body>
+    <h1>Witaj w Joinly 🚀</h1>
+    <p>Dzięki za zapis do early access.</p>
+    <p>Twój link referral:</p>
+    <p>${referralLink}</p>
+    <p>Zaprosisz 5 osób = 1 miesiąc Premium za darmo.</p>
+    <hr/>
+    <p>Miasto: ${city}</p>
+    <p>Zainteresowania: ${interest}</p>
+  </body>
+  </html>
+  `;
+
+  await fetch("https://api.sendgrid.com/v3/mail/send", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${process.env.SENDGRID_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      personalizations: [
+        {
+          to: [{ email }],
+        },
+      ],
+      from: {
+        email: "hello@joinly.tech",
+        name: "Joinly",
+      },
+      subject: "🚀 Witaj w Joinly",
+      content: [
+        {
+          type: "text/html",
+          value: emailHtml,
+        },
+      ],
+    }),
+  });
+}

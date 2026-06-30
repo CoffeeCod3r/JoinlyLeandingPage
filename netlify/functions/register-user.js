@@ -2,6 +2,7 @@ const { createClient } = require("@supabase/supabase-js");
 
 exports.handler = async function (event) {
   try {
+    console.log("FUNCTION START");
     if (event.httpMethod !== "POST") {
       return {
         statusCode: 405,
@@ -10,6 +11,8 @@ exports.handler = async function (event) {
     }
 
     const data = JSON.parse(event.body || "{}");
+
+    console.log("DATA:", data);
 
     const email = String(data.email || "")
       .trim()
@@ -25,9 +28,13 @@ exports.handler = async function (event) {
       };
     }
 
+    console.log("SUPABASE_URL:", process.env.SUPABASE_URL);
+    console.log("HAS SERVICE KEY:", !!process.env.SUPABASE_SERVICE_ROLE_KEY);
+    console.log("HAS SENDGRID:", !!process.env.SENDGRID_API_KEY);
+
     const supabase = createClient(
       process.env.SUPABASE_URL,
-      process.env.SUPABASE_SERVICE_ROLE_KEY,
+      process.env.SUPABASE_SECRET_KEY,
     );
 
     function generateReferralCode() {
@@ -56,6 +63,8 @@ exports.handler = async function (event) {
       .single();
 
     if (error) throw error;
+
+    console.log("USER INSERTED:", newUser);
 
     if (referredBy) {
       await handleReferral(supabase, newUser, referredBy);

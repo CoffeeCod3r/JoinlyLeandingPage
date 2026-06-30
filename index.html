@@ -741,42 +741,6 @@
         if (!response.ok) throw new Error("Netlify Forms: " + response.status);
         return { ok: true };
       }
-      $("#waitlistForm").addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const form = e.currentTarget;
-        const btn = $("#submitBtn");
-        const email = $("#email").value;
-        const code = makeCode(email);
-        $("#refCode").textContent = code;
-        $("#refCodeInput").value = code;
-        const formData = new FormData(form);
-        localStorage.setItem("joinly_waitlist_email", email);
-        localStorage.setItem("joinly_waitlist_city", $("#city").value);
-        localStorage.setItem("joinly_ref", code);
-        btn.disabled = true;
-        btn.textContent = "Zapisywanie...";
-        const results = await Promise.allSettled([
-          saveToNetlify(formData),
-          saveToSupabase(formData, code),
-          sendWelcomeEmail(formData, code),
-        ]);
-        const success = results.some(
-          (r) =>
-            r.status === "fulfilled" &&
-            (r.value.ok || r.value.duplicate || r.value.skipped),
-        );
-        if (success) {
-          $("#success").style.display = "block";
-          btn.textContent = "✓ Zapisano";
-          confetti();
-        } else {
-          btn.disabled = false;
-          btn.textContent = "Spróbuj ponownie";
-          alert(
-            "Nie udało się zapisać. Sprawdź Netlify Forms albo konfigurację Supabase.",
-          );
-        }
-      });
       $$("#quiz button").forEach((btn) =>
         btn.addEventListener("click", () => {
           btn.classList.toggle("active");
